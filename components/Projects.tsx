@@ -102,16 +102,17 @@ const sectionT = {
 };
 
 function ProjectCard({ project, i, inView }: { project: typeof projects.fr[0]; i: number; inView: boolean }) {
+  const hasGithub = 'github' in project && project.github;
   return (
     <motion.div
       key={project.title}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: i * 0.1 }}
-      className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group"
+      className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group flex flex-col"
     >
       <div className={`h-2 bg-gradient-to-r ${project.color}`} />
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <h3 className="text-white font-bold text-lg mb-3 group-hover:text-violet-400 transition-colors">{project.title}</h3>
         <p className="text-slate-400 text-sm leading-relaxed mb-5">{project.desc}</p>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -121,15 +122,24 @@ function ProjectCard({ project, i, inView }: { project: typeof projects.fr[0]; i
             </span>
           ))}
         </div>
-        {'github' in project && project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors"
-          >
-            <ExternalLink size={14} /> Voir sur GitHub
-          </a>
+        {hasGithub && (
+          <div className="mt-auto flex justify-end pt-4 border-t border-slate-800">
+            <a
+              href={(project as { github: string }).github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`
+                relative inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold
+                bg-gradient-to-r ${project.color} text-white
+                shadow-lg hover:shadow-xl hover:scale-105
+                transition-all duration-300 overflow-hidden
+                before:absolute before:inset-0 before:bg-white/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity
+              `}
+            >
+              <ExternalLink size={13} className="shrink-0" />
+              Voir sur GitHub
+            </a>
+          </div>
         )}
       </div>
     </motion.div>
