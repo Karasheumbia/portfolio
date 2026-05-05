@@ -3,10 +3,17 @@ import { useLang } from './LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 
 const projects = {
   fr: [
+    {
+      title: 'Détection de Stress ECG/HRV',
+      desc: "DNN PyTorch entraîné sur le dataset WESAD (15 sujets) pour détecter le stress à partir de 12 features HRV extraites du signal ECG. Accuracy de 96% sur sujet de test, rappel de 100%. Interface interactive Streamlit incluse.",
+      tags: ['PyTorch', 'Deep Learning', 'ECG/HRV', 'Streamlit', 'WESAD'],
+      color: 'from-red-600 to-rose-600',
+      github: 'https://github.com/Karasheumbia/Projet-stress-detection-ecg-hrv',
+    },
     {
       title: 'Prédiction de Retard de Vol',
       desc: "Modèle ML pour prédire les retards de vols sur 563 000+ enregistrements (2018–2022). Pipeline complet : prétraitement, rééchantillonnage, sélection de features, évaluation.",
@@ -39,6 +46,13 @@ const projects = {
     },
   ],
   en: [
+    {
+      title: 'Stress Detection ECG/HRV',
+      desc: "PyTorch DNN trained on the WESAD dataset (15 subjects) to detect stress from 12 HRV features extracted from ECG signals. 96% accuracy on test subject, 100% recall. Interactive Streamlit interface included.",
+      tags: ['PyTorch', 'Deep Learning', 'ECG/HRV', 'Streamlit', 'WESAD'],
+      color: 'from-red-600 to-rose-600',
+      github: 'https://github.com/Karasheumbia/Projet-stress-detection-ecg-hrv',
+    },
     {
       title: 'Flight Delay Prediction',
       desc: "ML model to predict flight delays on 563,000+ records (2018–2022). Full pipeline: preprocessing, resampling, feature selection, evaluation.",
@@ -75,13 +89,13 @@ const projects = {
 const sectionT = {
   fr: {
     title: 'Mes Projets',
-    sub: '5 projets illustrant mes compétences en ML, Data Science et développement',
+    sub: '6 projets illustrant mes compétences en ML, Data Science et développement',
     showMore: 'Voir plus de projets',
     showLess: 'Réduire',
   },
   en: {
     title: 'My Projects',
-    sub: '5 projects showcasing my skills in ML, Data Science, and development',
+    sub: '6 projects showcasing my skills in ML, Data Science, and development',
     showMore: 'See more projects',
     showLess: 'Show less',
   },
@@ -100,13 +114,23 @@ function ProjectCard({ project, i, inView }: { project: typeof projects.fr[0]; i
       <div className="p-6">
         <h3 className="text-white font-bold text-lg mb-3 group-hover:text-violet-400 transition-colors">{project.title}</h3>
         <p className="text-slate-400 text-sm leading-relaxed mb-5">{project.desc}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           {project.tags.map(tag => (
             <span key={tag} className="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700">
               {tag}
             </span>
           ))}
         </div>
+        {'github' in project && project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors"
+          >
+            <ExternalLink size={14} /> Voir sur GitHub
+          </a>
+        )}
       </div>
     </motion.div>
   );
